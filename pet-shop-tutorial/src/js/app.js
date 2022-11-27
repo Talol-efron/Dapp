@@ -9,14 +9,16 @@ App = {
       var petTemplate = $('#petTemplate');
 
       for (i = 0; i < data.length; i ++) {
+        //15匹分のdataを格納 -> コメントアウトするとすべて表記が初期値になる
         petTemplate.find('.panel-title').text(data[i].name);
         petTemplate.find('img').attr('src', data[i].picture);
         petTemplate.find('.pet-breed').text(data[i].breed);
-        petTemplate.find('.pet-price').text(data[i].price);
+        petTemplate.find('.pet-price').text(data[i].price);//ここもpetId同様に記述すべきか
         petTemplate.find('.pet-location').text(data[i].location);
         petTemplate.find('.btn-adopt').attr('data-id', data[i].id);
 
         petsRow.append(petTemplate.html());
+        //console.log(data[i])
       }
     });
 
@@ -77,8 +79,20 @@ App = {
     }).then(function(adopters) {
       for (i = 0; i < adopters.length; i++) {
         if (adopters[i] !== '0x0000000000000000000000000000000000000000') {
-          $('.panel-pet').eq(i).find('button').text('adopt')//.attr('disabled', true);
+          $('.panel-pet').eq(i).find('button').text('Adopt!')//.attr('disabled', true);
+          //index.htmlの47,48も含む？
+
+          //var fuga = $('.panel-pet').eq(i).find('button').text('Adopt!')//.attr('disabled', true);
+          //console.log(fuga);
           //Adoption.solに同等の記述？
+
+          /*
+          $('.panel-pet').eq(i).find('.button1').text('adopt1')//.attr('disabled', true);
+          var fuga = $('.panel-pet').eq(i).find('button').text('Adopt!')//.attr('disabled', true);
+          console.log(fuga);
+          var hoge = $('.panel-pet').eq(i).find('.button1').text('adopt1')//.attr('disabled', true);
+          console.log(hoge);
+          */
         }
       }
     }).catch(function(err) {
@@ -92,9 +106,6 @@ App = {
 
     var petId = parseInt($(event.target).data('id'));
     console.log(petId); //うまく表示される
-
-    var petName = parseInt($(event.target).data('name'));
-    console.log(petName); //NaNが帰ってくる
 
     //pets.jsonからprice引っ張ってくる
     var petPrice = parseInt($(event.target).data('price'));
