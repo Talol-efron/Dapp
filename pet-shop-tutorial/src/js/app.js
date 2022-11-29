@@ -6,17 +6,17 @@ App = {
     // Load pets.
     $.getJSON('../pets.json', function(data) {
       var petsRow = $('#petsRow');
-      var petTemplate = $('#petTemplate');
+      var petTemplate = $('#petTemplate'); 
 
-      for (i = 0; i < data.length; i ++) {
+      for (i = 0; i < data.length; i++) {
         //15匹分のdataを格納 -> コメントアウトするとすべて表記が初期値になる
         petTemplate.find('.panel-title').text(data[i].name);
         petTemplate.find('img').attr('src', data[i].picture);
         petTemplate.find('.pet-breed').text(data[i].breed);
-        petTemplate.find('.pet-price').text(data[i].price);//ここもpetId同様に記述すべきか
+        petTemplate.find('.pet-price').text(data[i].price);
+        petTemplate.find('.btn-adopt').attr('data-price', data[i].price);
         petTemplate.find('.pet-location').text(data[i].location);
         petTemplate.find('.btn-adopt').attr('data-id', data[i].id);
-
         petsRow.append(petTemplate.html());
         //console.log(data[i])
       }
@@ -79,7 +79,7 @@ App = {
     }).then(function(adopters) {
       for (i = 0; i < adopters.length; i++) {
         if (adopters[i] !== '0x0000000000000000000000000000000000000000') {
-          $('.panel-pet').eq(i).find('button').text('Adopt!')//.attr('disabled', true);
+          $('.panel-pet').eq(i).find('button')//.text('Adopt!').attr('disabled', true);
           //index.htmlの47,48も含む？
 
           //var fuga = $('.panel-pet').eq(i).find('button').text('Adopt!')//.attr('disabled', true);
@@ -108,8 +108,10 @@ App = {
     console.log(petId); //うまく表示される
 
     //pets.jsonからprice引っ張ってくる
+    //var petPrice = parseInt($(event.target).data('price'));
     var petPrice = parseInt($(event.target).data('price'));
-    console.log(petPrice); //NaNが帰ってくる
+    console.log(petPrice); 
+    //NaNが帰ってくる
     //petPrice, petName共にNaNが帰ってきた
     // -> petId('id'要素)のみ取得、出力できている
     // -> petIdと同じような処理が必要？
@@ -124,7 +126,7 @@ App = {
       }
 
       var account = accounts[0];
-      console.log(account)
+      //console.log(account)
       
 
       App.contracts.Adoption.deployed().then(function(instance) {
@@ -139,6 +141,8 @@ App = {
       }).catch(function(err) {
         console.log(err.message);
       });
+
+      
     /*web3.eth.getBalance("0xe1dad35bf09ccf8219607510b032bdf783fdf263")
       .then(console.log);
     
