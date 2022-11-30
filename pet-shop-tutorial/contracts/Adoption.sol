@@ -24,6 +24,13 @@ contract Adoption {
         adopters[petPrice] = msg.sender;
         return petId, petPrice;
     }*/  
+    
+    //未完成
+    function calcBalance(uint balance, uint petPrice) public returns(uint) {
+        require(balance - petPrice >= 0);
+        balance = balance - petPrice;
+        return petPrice;
+    }
 
     function getAdopters() public view returns (address[16] memory) {
         return adopters;

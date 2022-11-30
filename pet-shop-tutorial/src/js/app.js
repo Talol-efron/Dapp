@@ -80,25 +80,12 @@ App = {
       for (i = 0; i < adopters.length; i++) {
         if (adopters[i] !== '0x0000000000000000000000000000000000000000') {
           $('.panel-pet').eq(i).find('button')//.text('Adopt!').attr('disabled', true);
-          //index.htmlの47,48も含む？
-
-          //var fuga = $('.panel-pet').eq(i).find('button').text('Adopt!')//.attr('disabled', true);
-          //console.log(fuga);
-          //Adoption.solに同等の記述？
-
-          /*
-          $('.panel-pet').eq(i).find('.button1').text('adopt1')//.attr('disabled', true);
-          var fuga = $('.panel-pet').eq(i).find('button').text('Adopt!')//.attr('disabled', true);
-          console.log(fuga);
-          var hoge = $('.panel-pet').eq(i).find('.button1').text('adopt1')//.attr('disabled', true);
-          console.log(hoge);
-          */
+          //adopter[i] -> '0x'
         }
       }
     }).catch(function(err) {
       console.log(err.message);
     });
-
   },
 
   handleAdopt: function(event) {
@@ -107,18 +94,13 @@ App = {
     var petId = parseInt($(event.target).data('id'));
     console.log(petId); //うまく表示される
 
-    //pets.jsonからprice引っ張ってくる
-    //var petPrice = parseInt($(event.target).data('price'));
+    //17行目btn-adoptに変更後solved
     var petPrice = parseInt($(event.target).data('price'));
     console.log(petPrice); 
-    //NaNが帰ってくる
-    //petPrice, petName共にNaNが帰ってきた
-    // -> petId('id'要素)のみ取得、出力できている
-    // -> petIdと同じような処理が必要？
-    // -> 120行目の処理か -> X
-    // -> Adoption.solにpetIdと同等の記述をし、呼び出す
 
     var adoptionInstance;
+
+    
 
     web3.eth.getAccounts(function(error, accounts) {
       if (error) {
@@ -127,19 +109,37 @@ App = {
 
       var account = accounts[0];
       //console.log(account)
-      
 
       App.contracts.Adoption.deployed().then(function(instance) {
         adoptionInstance = instance;
 
         // Execute adopt as a transaction by sending account
-        //petPriceを処理
         return adoptionInstance.adopt(petId, {from: account});
         
       }).then(function(result) {
         return App.markAdopted();
       }).catch(function(err) {
         console.log(err.message);
+      });
+
+      web3.eth.getBalance(account, (error, bl) => {
+        var balance = bl.c[0];
+        console.log(balance);
+
+        //ERROR!
+        //adoptionInstance.calcBalance is not a function
+        App.contracts.Adoption.deployed().then(function (instance) {
+          adoptionInstance = instance;
+
+          // Execute adopt as a balance by sending account
+          //petPriceを処理
+          return adoptionInstance.calcBalance(balance, petPrice, { from: account });
+
+        }).then(function (result) {
+          return App.markAdopted();
+        }).catch(function (err) {
+          console.log(err.message);
+        });
       });
 
       
@@ -149,11 +149,9 @@ App = {
     トランザクションを行った回数のlog
     web3.eth.getTransactionCount(account, (error, count) => {
       console.log(count);
-    });
-
-    web3.eth.getBalance(account, (error, balance) => {
-      console.log(balance);
     });*/
+
+    
     });
   },  
 },
