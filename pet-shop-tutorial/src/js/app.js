@@ -75,7 +75,7 @@ App = {
     App.contracts.Adoption.deployed().then(function(instance) {
       adoptionInstance = instance;
 
-      return adoptionInstance.getAdopters.call();
+      return adoptionInstance.getAdopters.call();//.call()でトランザクション開始(?)
     }).then(function(adopters) {
       for (i = 0; i < adopters.length; i++) {
         if (adopters[i] !== '0x0000000000000000000000000000000000000000') {
@@ -100,8 +100,6 @@ App = {
 
     var adoptionInstance;
 
-    
-
     web3.eth.getAccounts(function(error, accounts) {
       if (error) {
         console.log(error);
@@ -125,22 +123,22 @@ App = {
       web3.eth.getBalance(account, (error, bl) => {
         var balance = bl.c[0];
         console.log(balance);
+      
+      //ERROR!
+      //adoptionInstance.calcBalance is not a function
+      App.contracts.Adoption.deployed().then(function (instance) {
+        adoptionInstance = instance;
 
-        //ERROR!
-        //adoptionInstance.calcBalance is not a function
-        App.contracts.Adoption.deployed().then(function (instance) {
-          adoptionInstance = instance;
-
-          // Execute adopt as a balance by sending account
-          //petPriceを処理
-          return adoptionInstance.calcBalance(balance, petPrice, { from: account });
-
-        }).then(function (result) {
-          return App.markAdopted();
-        }).catch(function (err) {
-          console.log(err.message);
-        });
+        // Execute adopt as a balance by sending account
+        //petPriceを処理
+        //return adoptionInstance.calcBalance(balance, petPrice, { from: account });
+        return adoptionInstance.initalizeApp(account, balance)
+      }).then(function (result) {
+        return App.markAdopted();
+      }).catch(function (err) {
+        console.log(err.message);
       });
+    });
 
       
     /*web3.eth.getBalance("0xe1dad35bf09ccf8219607510b032bdf783fdf263")
@@ -149,9 +147,7 @@ App = {
     トランザクションを行った回数のlog
     web3.eth.getTransactionCount(account, (error, count) => {
       console.log(count);
-    });*/
-
-    
+    });*/    
     });
   },  
 },
