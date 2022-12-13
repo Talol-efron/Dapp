@@ -37,7 +37,7 @@ contract Adoption {
     }
 
     //自作関数は"is not a function"というエラーが発生
-    function initializeApp(defaultAccount, balance) {
+    /*function initializeApp(defaultAccount, balance) {
         new Vue({
             el: '#js-app',
             data: {
@@ -67,8 +67,28 @@ contract Adoption {
                 });
             }
         }
-    })
+    })*/
 }
 
-    
-}
+/*contract ManagementEther {
+  address public owner;
+
+  // コンストラクタ
+  function ManagementEther() public {
+    owner = msg.sender;
+  }
+
+  // payable修飾子を付けることでetherを受け取れるようになる
+  function receiveEther() external payable {
+    // 送金されたetherの値は`msg.value`で取得可能
+    // 何かしらの処理を行う
+  }
+
+  // withdraw関数
+  function withdraw() external onlyOwner {
+    // オーナーのみ実行可能
+    require(msg.sender == owner);
+    // コントラクトのオーナーのアドレスにこのコントラクトのetherの残高を送金する
+    owner.transfer(this.balance);
+  }
+}*/

@@ -89,7 +89,7 @@ App = {
   },
 
   handleAdopt: function(event) {
-    event.preventDefault();
+    event.preventDefault();//デフォルトの動作をキャンセルする
 
     var petId = parseInt($(event.target).data('id'));
     console.log(petId); //うまく表示される
@@ -106,7 +106,11 @@ App = {
       }
 
       var account = accounts[0];
-      //console.log(account)
+      var recievAddr = "0x52DDcF80f1372e7fd3b16944ECE6B2D762327145";
+      console.log(account);
+      console.log(recievAddr);
+
+      
 
       App.contracts.Adoption.deployed().then(function(instance) {
         adoptionInstance = instance;
@@ -126,7 +130,7 @@ App = {
       
       //ERROR!
       //adoptionInstance.calcBalance is not a function
-      App.contracts.Adoption.deployed().then(function (instance) {
+      /*App.contracts.Adoption.deployed().then(function (instance) {
         adoptionInstance = instance;
 
         // Execute adopt as a balance by sending account
@@ -137,7 +141,10 @@ App = {
         return App.markAdopted();
       }).catch(function (err) {
         console.log(err.message);
-      });
+      });*/
+
+        var send = web3.eth.sendTransaction({ from: account, to: recievAddr, value: 10000 } );
+        console.log(send);
     });
 
       
