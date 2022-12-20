@@ -100,9 +100,9 @@ App = {
 
     var adoptionInstance;
 
-    web3.eth.getAccounts(function(error, accounts) {
-      if (error) {
-        console.log(error);
+    web3.eth.getAccounts(function(err, accounts) {
+      if (err) {
+        console.log(err);
       }
 
       var account = accounts[0];
@@ -125,9 +125,28 @@ App = {
       });
 
       web3.eth.getBalance(account, (error, bl) => {
-        var balance = bl.c[0];
-        console.log(balance);
+        var accountBalance = bl.c[0];
+        console.log('アカウント主の残高 : %d', accountBalance);
+      });
       
+      web3.eth.getBalance(recievAddr, (error, bl) => {
+        var recievBalance = bl.c[0];
+        console.log('送金先の残高 : %d', recievBalance);
+      });
+
+      web3.eth.sendTransaction({
+        from: account,
+        to: recievAddr,
+        //value: web3.toWei(1, "ether"),
+        value: '1000000000000000'
+      }, function (err, transactionHash) {
+        if (!err) {
+          console.log(transactionHash);
+        } else {
+          console.log("pass this func")
+        }
+      });
+
       //ERROR!
       //adoptionInstance.calcBalance is not a function
       /*App.contracts.Adoption.deployed().then(function (instance) {
@@ -142,20 +161,15 @@ App = {
       }).catch(function (err) {
         console.log(err.message);
       });*/
-
-        var send = web3.eth.sendTransaction({ from: account, to: recievAddr, value: 10000 } );
-        console.log(send);
     });
 
-      
     /*web3.eth.getBalance("0xe1dad35bf09ccf8219607510b032bdf783fdf263")
       .then(console.log);
     
     トランザクションを行った回数のlog
     web3.eth.getTransactionCount(account, (error, count) => {
       console.log(count);
-    });*/    
-    });
+    });*/  
   },  
 },
     
