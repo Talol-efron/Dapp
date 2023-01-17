@@ -272,7 +272,7 @@ var contract = (function(module) {
         }
 
         this[item.name].call = Utils.promisifyFunction(contract[item.name].call, constructor);
-        this[item.name].sendTransaction = Utils.promisifyFunction(contract[item.name].sendTransaction, constructor);
+        //this[item.name].sendTransaction = Utils.promisifyFunction(contract[item.name].sendTransaction, constructor);
         this[item.name].request = contract[item.name].request;
         this[item.name].estimateGas = Utils.promisifyFunction(contract[item.name].estimateGas, constructor);
       }
@@ -282,7 +282,7 @@ var contract = (function(module) {
       }
     }
 
-    this.sendTransaction = Utils.synchronizeFunction(function(tx_params, callback) {
+    /*this.sendTransaction = Utils.synchronizeFunction(function(tx_params, callback) {
       if (typeof tx_params == "function") {
         callback = tx_params;
         tx_params = {};
@@ -295,7 +295,7 @@ var contract = (function(module) {
 
     this.send = function(value) {
       return self.sendTransaction({value: value});
-    };
+    };*/
 
     this.allEvents = contract.allEvents;
     this.address = contract.address;

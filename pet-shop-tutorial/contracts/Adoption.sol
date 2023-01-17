@@ -26,11 +26,11 @@ contract Adoption {
     }*/  
     
     //未完成
-    function calcBalance(uint balance, uint petPrice) public returns(uint) {
+    /*function calcBalance(uint balance, uint petPrice) public returns(uint) {
         require(balance - petPrice >= 0);
         balance = balance - petPrice;
         return balance;
-    }
+    }*/
 
     function getAdopters() public view returns (address[16] memory) {
         return adopters;

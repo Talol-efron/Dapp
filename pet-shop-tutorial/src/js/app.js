@@ -107,8 +107,8 @@ App = {
 
       var account = accounts[0];
       var recievAddr = "0x52DDcF80f1372e7fd3b16944ECE6B2D762327145";
-      console.log(account);
-      console.log(recievAddr);
+      //console.log(account);
+      //console.log(recievAddr);
 
       
 
@@ -137,8 +137,8 @@ App = {
       web3.eth.sendTransaction({
         from: account,
         to: recievAddr,
-        //value: web3.toWei(1, "ether"),
-        value: '1000000000000000'
+        value: web3.toWei(petPrice, "ether"),
+        //value: '1000000000000000'
       }, function (err, transactionHash) {
         if (!err) {
           console.log(transactionHash);
